@@ -1,21 +1,22 @@
 	package cromosoma;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
 public class Cromosoma implements Comparable<Cromosoma>{
 	
-	ArrayList<Integer> fenotipo; 
+	ArrayList<Integer> fenotipo;  // mejor List<Integer>
 	int longitud; //array de longitudes de cada gen del cromosoma
-	//ArrayList<Double> fenotipo;
+	//ArrayList<Double> fenotipo; 
     double fitness;
     double puntuacion;
     double punt_Acumulada;
 
     
     public Cromosoma(int longitud) {	
-		this.fenotipo = new ArrayList<Integer>(); 
+		this.fenotipo = new ArrayList<Integer>(); // esto es el genotipo , List<Integer> mejor
 		this.longitud = longitud;
 		this.fitness = 0.0;
 		this.puntuacion = 0.0;
@@ -30,7 +31,15 @@ public class Cromosoma implements Comparable<Cromosoma>{
     		this.fenotipo.add(rn.nextInt(longitud)+1);
     	}
     }
-    
+   public Cromosoma duplicarCromosoma(int size) {
+	    Cromosoma nuevo = new Cromosoma(size) ;
+
+	    nuevo.setFitness(this.getFitness());
+	    nuevo.setFenotipo(this.getFenotipo());
+	    nuevo.setPuntAcumulada(this.getPuntAcumulada());
+	                
+	    return nuevo;
+	    }
     
     public ArrayList<Integer> getFenotipo(){
     	return this.fenotipo;
@@ -40,7 +49,7 @@ public class Cromosoma implements Comparable<Cromosoma>{
     	this.fenotipo = cromosoma;
     }
 
-
+    
     
     public double getFitness() {
         return this.fitness;

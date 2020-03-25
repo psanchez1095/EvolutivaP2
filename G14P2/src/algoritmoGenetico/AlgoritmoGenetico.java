@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 import cromosoma.*;
@@ -21,7 +23,7 @@ import utils.*;
 
 public class AlgoritmoGenetico {
 	
-	Cromosoma[] poblacion; //Poblacion total
+	Cromosoma[] poblacion; //Poblacion total //Probamos con list
 	ArrayList<Cromosoma> elite; //Elite seleccionada
 	
 	//Parametros del algoritmo.
@@ -31,7 +33,7 @@ public class AlgoritmoGenetico {
 	}
 
 	TipoSeleccion tipo_seleccion;
-	TipoCruce tipo_cruce;
+	Cruce tipo_cruce;
 	int tamPoblacion, numGeneraciones, numGenes, generacionActual;
 	double probabilidadCruce, probabilidadMutacion, probabilidadUniforme, precision, elitismo;
 	boolean booleanElite;
@@ -172,7 +174,49 @@ public class AlgoritmoGenetico {
 	 */
 	public void reproducePoblacion() {
 		
-		
+		 
+	    //Funcion que cruza todos los individuos
+	    
+			List<Cromosoma> padres = new ArrayList<Cromosoma>();
+			List<Integer> indicePadres = new ArrayList<Integer>();
+			
+			int j = 0;
+			for (Cromosoma cromo: this.poblacion)
+			{
+				if (Math.random() < this.probabilidadCruce)
+				{
+					padres.add(cromo);
+					indicePadres.add(j);
+				}
+				j++;
+			}
+			
+			Random rand = new Random();
+			
+			while (padres.size() > 1)
+			{
+				int indicePadre1 = Math.abs(rand.nextInt() % padres.size());
+				Cromosoma padre1 = padres.get(indicePadre1);
+				int padre1IndividuoIndex = indicePadres.get(indicePadre1);
+				
+				indicePadres.remove(indicePadre1);
+				padres.remove(indicePadre1);
+
+				int indicePadre2 = Math.abs(rand.nextInt() % padres.size());
+				Cromosoma padre2 = padres.get(indicePadre2);
+				int padre2IndividuoIndex = indicePadres.get(indicePadre2);
+				
+				indicePadres.remove(indicePadre2);
+				padres.remove(indicePadre2);
+
+				
+				Cromosoma[] hijos = tipo_cruce.cruzar(padre1.duplicarCromosoma(size), padre2.duplicarCromosoma(size));
+				
+				this.poblacion[padre1IndividuoIndex] = hijos[0];
+				this.poblacion[padre2IndividuoIndex] = hijos[1];
+				
+			}
+		}
 		
 //		switch(tipo_cruce) {
 //		case MONOPUNTO: 
@@ -206,7 +250,7 @@ public class AlgoritmoGenetico {
 		
 		
 		
-	}
+	
 	
 	
 	public void mutaPoblacion() {
