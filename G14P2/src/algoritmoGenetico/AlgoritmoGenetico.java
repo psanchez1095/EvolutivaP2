@@ -33,7 +33,7 @@ public class AlgoritmoGenetico {
 	}
 
 	TipoSeleccion tipo_seleccion;
-	Cruce tipo_cruce;
+	TipoCruce tipo_cruce;
 	int tamPoblacion, numGeneraciones, numGenes, generacionActual;
 	double probabilidadCruce, probabilidadMutacion, probabilidadUniforme, precision, elitismo;
 	boolean booleanElite;
@@ -174,7 +174,17 @@ public class AlgoritmoGenetico {
 	 */
 	public void reproducePoblacion() {
 		
-		 
+		Cruce cruce;
+	
+		switch(tipo_cruce) {
+		case PMX:
+			cruce = new PMX();
+		case COD_PRD:
+			cruce = new CO();
+		default:
+			cruce = new PMX();
+		}
+		
 	    //Funcion que cruza todos los individuos
 	    
 			List<Cromosoma> padres = new ArrayList<Cromosoma>();
@@ -210,7 +220,7 @@ public class AlgoritmoGenetico {
 				padres.remove(indicePadre2);
 
 				
-				Cromosoma[] hijos = tipo_cruce.cruzar(padre1.duplicarCromosoma(size), padre2.duplicarCromosoma(size));
+				Cromosoma[] hijos = cruce.cruzar(padre1.duplicarCromosoma(size), padre2.duplicarCromosoma(size));
 				
 				this.poblacion[padre1IndividuoIndex] = hijos[0];
 				this.poblacion[padre2IndividuoIndex] = hijos[1];
