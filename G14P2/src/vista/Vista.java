@@ -175,7 +175,7 @@ public class Vista extends javax.swing.JFrame {
             }
         });
         
-        cruceBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PMX", "OX" ,"VAROX", "COD_PRD"}));
+        cruceBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PMX","OX", "CO", "CX" ,"ERX" ,"OX-PP"}));
         cruceBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	cruceBoxActionPerformed(evt);

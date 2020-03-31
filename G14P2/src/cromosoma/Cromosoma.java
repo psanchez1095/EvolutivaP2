@@ -21,7 +21,7 @@ public class Cromosoma implements Comparable<Cromosoma>{
 		this.fitness = 0.0;
 		this.puntuacion = 0.0;
 		this.punt_Acumulada = 0.0;
-		
+		generarGen();
 	}
     
     private void generarGen() {

@@ -10,73 +10,60 @@ public class CX implements Cruce {
 	public Cromosoma[] cruzar(Cromosoma in1, Cromosoma in2) {
 		// TODO Auto-generated method stub
 		
+		Cromosoma nuevosCromosomas[] = new Cromosoma[2];
 		int size = in1.getFenotipo().size();
 		boolean finCiclo = false;
 		int posi = 0;
-		ArrayList<Boolean> tomados = new ArrayList<>(size); // array auxiliar para marcar posiciones ya elegidas		
-		ArrayList<Integer> genotipoSon1 = new ArrayList<>(size); // array para guardar el hijo 1 generado
-		ArrayList<Integer> genotipoSon2 = new ArrayList<>(size); // array para guardar el hijo 2 generado
+		ArrayList<Boolean> tomados = new ArrayList<>(size); 	
+		ArrayList<Integer> hijo1 = new ArrayList<>(size); 
+		ArrayList<Integer> hijo2 = new ArrayList<>(size); 
 		
-		/*
-		System.out.println(genotipo1);
-		System.out.println(genotipo2);
-		System.out.println();*/
-		
-		/* inicializamos el array de posiciones tomadas a false */
-		/* inicializamos los array de hijos a valor = size */
-		for (int i = 0; i< size; i++) {
+		for(int i = 0; i< size; i++){
 			tomados.add(i, false);
-			genotipoSon1.add(i, size);
-			genotipoSon2.add(i, size);
+			hijo1.add(i, size);
+			hijo2.add(i, size);
 		}
-					
-		/* Ciclo */		
-		genotipoSon1.set(0,in1.getFenotipo().get(0));
-		genotipoSon2.set(0,in2.getFenotipo().get(0));
+						
+		hijo1.set(0,in1.getFenotipo().get(0));
+		hijo2.set(0,in2.getFenotipo().get(0));
 		tomados.set(in1.getFenotipo().get(0), true);
 		
-		// busco posición del omólogo
+		//posición del equivalente
 		posi = buscarPosicion(in2.getFenotipo().get(0), 1, in1,in2);
 			
-		// mientras que no sea un valor ya tomado		
+		
 		while(!finCiclo) {
 			
 			if(tomados.get(in1.getFenotipo().get(posi)) == true) {
 				finCiclo = true;			
 			}else{
-				genotipoSon1.set(posi,in1.getFenotipo().get(posi));
-				genotipoSon2.set(posi, in2.getFenotipo().get(posi));
+				hijo1.set(posi,in1.getFenotipo().get(posi));
+				hijo2.set(posi, in2.getFenotipo().get(posi));
 				tomados.set(in1.getFenotipo().get(posi), true);
 				posi = buscarPosicion(in2.getFenotipo().get(posi), 1,in1,in2);
 			}		
 		}
 
-		/* recorremos el array donde estamos generando los hijos, en las posiciones '== size', 
-		 * no se ha modificado el gen, se escribe en esa posición el valor del padre contrario */		
 		for (int i = 0; i< size; i++) {			
-			if (genotipoSon1.get(i) == size) {
-				genotipoSon1.set(i, in2.getFenotipo().get(i));
-				genotipoSon2.set(i, in1.getFenotipo().get(i));
+			if (hijo1.get(i) == size) {
+				hijo1.set(i, in2.getFenotipo().get(i));
+				hijo2.set(i, in1.getFenotipo().get(i));
 			}			
 		}
 				
-		//System.out.println(genotipoSon1);
-		//System.out.println(genotipoSon2);
+		in1.setFenotipo(hijo1);
+		in2.setFenotipo(hijo2);
+		nuevosCromosomas[0] = in1;
+		nuevosCromosomas[1] = in2;
 		
-		Cromosoma newIndividuos[] = new Cromosoma[2];
-		in1.setFenotipo(genotipoSon1);
-		in2.setFenotipo(genotipoSon2);
-		newIndividuos[0] = in1;
-		newIndividuos[1] = in2;
-		return newIndividuos;
+		return nuevosCromosomas;
 	}
 
-	
 	/* Devuelve la posición de un gen dentro del genotipo */
-	private int buscarPosicion(int gen, int numPadre,Cromosoma cromo1, Cromosoma cromo2) {
+	private int buscarPosicion(int gen, int numPadre,Cromosoma cromo1, Cromosoma cromo2){
+		
 		int posi = 0;
 			
-		// Busca en el padre 1 o en el 2
 		if(numPadre == 1) {		
 			while (cromo1.getFenotipo().get(posi) != gen )
 				posi++;			

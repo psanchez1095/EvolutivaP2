@@ -1,10 +1,6 @@
 package seleccion;
 
 import cromosoma.Cromosoma;
-import cromosoma.CromosomaF1;
-import cromosoma.CromosomaF2;
-import cromosoma.CromosomaF3;
-import cromosoma.CromosomaF4;
 import utils.TipoMutacion;
 
 public class EstocasticoUniversal {
@@ -48,46 +44,27 @@ public class EstocasticoUniversal {
             double valor = (1.0 * i) / this.tamPob;
             while (!encontrado && j<this.tamPob) {
                 if (valor < valores[j]) {
-                    generacionNueva[i] = duplicarCromosoma(this.pob[j], tFunc, prec, nGenes);
+                    generacionNueva[i] = duplicarCromosoma(this.pob[j]);
                     encontrado = true;
                 } else {
                     j++;
                 }
             }
             if(j > this.tamPob)
-            	generacionNueva[i] = duplicarCromosoma(this.pob[j-1],  tFunc, prec, nGenes);
+            	generacionNueva[i] = duplicarCromosoma(this.pob[j-1]);
             encontrado = false;
         }
         this.pob = generacionNueva;
 
 	}
 	
-	private Cromosoma duplicarCromosoma(Cromosoma c, TipoMutacion tipoFuncion, double precision, int numGenes) {
-	    Cromosoma nuevo = null;
-	    
-	    switch(tipoFuncion) {
-	    	case F1:
-	    		nuevo = new CromosomaF1(precision);
-	    		break;
-	    	case F2:
-	    		nuevo = new CromosomaF2(precision);
-	    		break;
-	    	case F3:
-	    		nuevo = new CromosomaF3(precision);
-	    		break;
-	    	case F4:
-	    		nuevo = new CromosomaF4(precision, numGenes);
-	    		break;
-	    	default:
-	    		nuevo = new CromosomaF1(precision);
-	    		break;
-	    	}
-	    	
+	private Cromosoma duplicarCromosoma(Cromosoma c) {
+	    Cromosoma nuevo = new Cromosoma(c.getLongitud());
+	    		
+	    	nuevo.setFenotipo(c.getFenotipo());
 	        nuevo.setFitness(c.getFitness());
-	        nuevo.setCromosoma(c.getCromosoma());
-	        nuevo.setCromosomab(c.getCromosomab());
 	        nuevo.setPuntAcumulada(c.getPuntAcumulada());
-	        nuevo.getFenotipo();
+	        nuevo.setPuntuacion(c.getPuntuacion());
 	                
 	    	return nuevo;
 	    }

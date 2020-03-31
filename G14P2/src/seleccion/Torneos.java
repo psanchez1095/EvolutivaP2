@@ -1,10 +1,6 @@
 package seleccion;
 
 import cromosoma.Cromosoma;
-import cromosoma.CromosomaF1;
-import cromosoma.CromosomaF2;
-import cromosoma.CromosomaF3;
-import cromosoma.CromosomaF4;
 import utils.TipoMutacion;
 
 public class Torneos {
@@ -47,39 +43,16 @@ public class Torneos {
 	
 	
 	private double compararFitness(double uno, double otro, TipoMutacion tFunc) {
-		if(tFunc == TipoMutacion.F1) {
-			if(uno > otro) return uno;
-			else return otro;
-		} else if(uno < otro) return uno;
-			   else return otro;
+		if(uno < otro) return uno;
+			  else return otro;
 	}
 	
 	private Cromosoma duplicarCromosoma(Cromosoma c, TipoMutacion tipoFuncion, double precision, int numGenes) {
-	    Cromosoma nuevo = null;
-	    
-	    switch(tipoFuncion) {
-	    	case F1:
-	    		nuevo = new CromosomaF1(precision);
-	    		break;
-	    	case F2:
-	    		nuevo = new CromosomaF2(precision);
-	    		break;
-	    	case F3:
-	    		nuevo = new CromosomaF3(precision);
-	    		break;
-	    	case F4:
-	    		nuevo = new CromosomaF4(precision, numGenes);
-	    		break;
-	    	default:
-	    		nuevo = new CromosomaF1(precision);
-	    		break;
-	    	}
-	    	
-	        nuevo.setFitness(c.getFitness());
-	        nuevo.setCromosoma(c.getCromosoma());
-	        nuevo.setPuntAcumulada(c.getPuntAcumulada());
-	        nuevo.getFenotipo();
-	                
-	    	return nuevo;
-	    }
+	    Cromosoma nuevo = new Cromosoma(c.getLongitud());
+    	nuevo.setFenotipo(c.getFenotipo());
+        nuevo.setFitness(c.getFitness());
+        nuevo.setPuntAcumulada(c.getPuntAcumulada());
+        nuevo.setPuntuacion(c.getPuntuacion());
+	    return nuevo;
+	}
 }

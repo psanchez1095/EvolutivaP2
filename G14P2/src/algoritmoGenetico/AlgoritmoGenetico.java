@@ -7,12 +7,10 @@ import mutacion.Insercion;
 import mutacion.Intercambio;
 import mutacion.Inversion;
 import cromosoma.Cromosoma;
-import reemplazo.Aleatorio;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -174,50 +172,56 @@ public class AlgoritmoGenetico {
 	 */
 	public void reproducePoblacion() {
 		
+		ArrayList<Cromosoma> poblacionCruce = new ArrayList<Cromosoma>();
+		ArrayList<Integer>   indicePadres = new ArrayList<Integer>();
 		Cruce cruce;
 	
 		switch(tipo_cruce) {
 		case PMX:
 			cruce = new PMX();
-		case COD_PRD:
+		case CO:
 			cruce = new CO();
+		case ERX:
+			cruce = new ERX();
+		case OX_PP:
+			cruce = new OX_PP();
+		case OX:
+			cruce = new OX();
+		case CX:
+			cruce = new CX();
 		default:
 			cruce = new PMX();
 		}
 		
-	    //Funcion que cruza todos los individuos
-	    
-			List<Cromosoma> padres = new ArrayList<Cromosoma>();
-			List<Integer> indicePadres = new ArrayList<Integer>();
+		for( int i =0; i <this.poblacion.length ;i++) {
 			
-			int j = 0;
-			for (Cromosoma cromo: this.poblacion)
-			{
-				if (Math.random() < this.probabilidadCruce)
-				{
-					padres.add(cromo);
-					indicePadres.add(j);
+			double valor = Math.random();
+		
+				if (valor <= this.probabilidadCruce) {
+					poblacionCruce.add(this.poblacion[i]);
+					indicePadres.add(i);
 				}
-				j++;
+		
+		
 			}
-			
+	
 			Random rand = new Random();
 			
-			while (padres.size() > 1)
+			while (poblacionCruce.size() > 1)
 			{
-				int indicePadre1 = Math.abs(rand.nextInt() % padres.size());
-				Cromosoma padre1 = padres.get(indicePadre1);
+				int indicePadre1 = Math.abs(rand.nextInt() % poblacionCruce.size());
+				Cromosoma padre1 = poblacionCruce.get(indicePadre1);
 				int padre1IndividuoIndex = indicePadres.get(indicePadre1);
 				
 				indicePadres.remove(indicePadre1);
-				padres.remove(indicePadre1);
+				poblacionCruce.remove(indicePadre1);
 
-				int indicePadre2 = Math.abs(rand.nextInt() % padres.size());
-				Cromosoma padre2 = padres.get(indicePadre2);
+				int indicePadre2 = Math.abs(rand.nextInt() % poblacionCruce.size());
+				Cromosoma padre2 = poblacionCruce.get(indicePadre2);
 				int padre2IndividuoIndex = indicePadres.get(indicePadre2);
 				
 				indicePadres.remove(indicePadre2);
-				padres.remove(indicePadre2);
+				poblacionCruce.remove(indicePadre2);
 
 				
 				Cromosoma[] hijos = cruce.cruzar(padre1.duplicarCromosoma(size), padre2.duplicarCromosoma(size));
@@ -228,40 +232,7 @@ public class AlgoritmoGenetico {
 			}
 		}
 		
-//		switch(tipo_cruce) {
-//		case MONOPUNTO: 
-//			MonopuntoBooleano mp = new MonopuntoBooleano(this.probabilidadCruce,
-//					this.tamPoblacion, this.poblacion, (int)this.elitismo*this.tamPoblacion);
-//			mp.cruzar(mutacion);
-//			break;
-//			
-//		case UNIFORME:
-//			UniformeBooleana uni = new UniformeBooleana(this.probabilidadCruce, this.probabilidadUniforme,
-//					this.tamPoblacion, this.poblacion, (int)this.elitismo*this.tamPoblacion);
-//			uni.cruzar();
-//			
-//			break;
-//		case ARITMETICO:
-//			AritmeticoReal arit = new AritmeticoReal(this.probabilidadCruce, this.tamPoblacion,
-//					this.poblacion, (int)this.elitismo*this.tamPoblacion);
-//			arit.cruzar();
-//
-//			break;
-//		case BLX:
-//				BLXReal blx = new BLXReal(this.probabilidadCruce, this.tamPoblacion, this.poblacion, (int)this.elitismo*this.tamPoblacion);
-//				blx.cruzar();
-//
-//			break;
-//		default:
-//			MonopuntoBooleano mono = new MonopuntoBooleano(this.probabilidadCruce, this.tamPoblacion, this.poblacion, (int)this.elitismo*this.tamPoblacion);
-//			mono.cruzar(mutacion);
-//			break;
-//		}
-		
-		
-		
-	
-	
+
 	
 	public void mutaPoblacion() {
 		switch(mutacion) {

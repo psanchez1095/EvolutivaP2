@@ -1,7 +1,6 @@
 package cruce;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import cromosoma.Cromosoma;
 
@@ -10,97 +9,98 @@ public class PMX implements Cruce{
 	//Se encarga del mapeo del intercambio
 	
 	
-	public Cromosoma[] cruzar(Cromosoma in1, Cromosoma in2)
+	public Cromosoma[] cruzar(Cromosoma cromo1, Cromosoma cromo2)
 	{
-		Random rand = new Random();
 		
-		ArrayList<Integer> genotipo1 = in1.getFenotipo();
-		ArrayList<Integer> genotipo2 = in2.getFenotipo();
+		Cromosoma nuevosCromosomas[] = new Cromosoma[2]; 
+		Random aleatorio = new Random();
+		int primerCorte = aleatorio.nextInt(cromo1.getFenotipo().size() - 1);
+		int segundoCorte = aleatorio.nextInt(cromo1.getFenotipo().size() - 1);
 		
-		int primerCorte = rand.nextInt(genotipo1.size() - 1);
-		int segundoCorte = rand.nextInt(genotipo1.size() - 1);
-		
-		if (segundoCorte < primerCorte) //Aseguramos que secondCut este a la derecha de firstCut
-		{
+		if(segundoCorte < primerCorte){ //Aseguramos que secondCut este a la derecha de firstCut
 			int aux = primerCorte;
 			primerCorte = segundoCorte;
 			segundoCorte = aux;
+			
 		}
 		
-
 		int tamañoCorte = segundoCorte - primerCorte + 1;
 		
 		int[] in1Cambiados = new int[tamañoCorte];
 		int[] in2Cambiados = new int[tamañoCorte];
 		
-		ArrayList<Integer> genotipoSon1 = new ArrayList<>(genotipo1.size());
-		ArrayList<Integer> genotipoSon2 = new ArrayList<>(genotipo1.size());
+		ArrayList<Integer> hijo1 = new ArrayList<>(cromo1.getFenotipo().size());
+		ArrayList<Integer> hijo2 = new ArrayList<>(cromo1.getFenotipo().size());
 	
-		for (int i = primerCorte; i <= segundoCorte; i++)
-		{
+		for (int i = primerCorte; i <= segundoCorte; i++){
 			
-			in1Cambiados[i - primerCorte] = genotipo2.get(i);
-			in2Cambiados[i - primerCorte] = genotipo1.get(i);
+			in1Cambiados[i - primerCorte] = cromo2.getFenotipo().get(i);
+			in2Cambiados[i - primerCorte] = cromo1.getFenotipo().get(i);
 			
 		}
 		
-		for (int i = 0; i < genotipo1.size(); i++)
-		{
-			if (i >= primerCorte && i <= segundoCorte) { 
-				//Si pertenecen al corte, se pone el del corte directamente
+		for(int i = 0; i < cromo1.getFenotipo().size(); i++){
+			
+			if (i >= primerCorte && i <= segundoCorte){ 
 				
-				genotipoSon1.add(in1Cambiados[i - primerCorte]);
-				genotipoSon2.add(in2Cambiados[i - primerCorte]); 
+				hijo1.add(in1Cambiados[i - primerCorte]);
+				hijo2.add(in2Cambiados[i - primerCorte]); 
 				
-			} else {
+			} 
+			else{
 				
-				genotipoSon1.add(genotipo1.get(i)); 
-				genotipoSon2.add(genotipo2.get(i));
+				hijo1.add(cromo1.getFenotipo().get(i)); 
+				hijo2.add(cromo2.getFenotipo().get(i));
 				boolean boolIni1Cambiado = false; 
 				boolean boolIni2Cambiado = false;
 				
-				for (int j = 0; j < tamañoCorte; j++) //Si coincide con los intercambiados...
-				{
+				for (int j = 0; j < tamañoCorte; j++){
+					
 					// Para que solo haya un cambio he creado los boolean
-					if (!boolIni1Cambiado && genotipoSon1.get(i) == in1Cambiados[j]) //...Se coloca la pareja del coincidente
-					{
-						genotipoSon1.set(i, getCambiado(genotipoSon1.get(i), in1Cambiados, in2Cambiados));
+					
+					if(!boolIni1Cambiado && hijo1.get(i) == in1Cambiados[j]){
+						
+						hijo1.set(i, getEquivalente(hijo1.get(i), in1Cambiados, in2Cambiados));
 						boolIni1Cambiado = true;
+						
 					}
 
-					if (!boolIni2Cambiado && genotipoSon2.get(i) == in2Cambiados[j])
-					{
-						genotipoSon2.set(i, getCambiado(genotipoSon2.get(i), in2Cambiados, in1Cambiados));
+					if(!boolIni2Cambiado && hijo2.get(i) == in2Cambiados[j]){
+						
+						hijo2.set(i, getEquivalente(hijo2.get(i), in2Cambiados, in1Cambiados));
 						boolIni2Cambiado = true;
+						
 					}
+					
 				}
 			}
 		}
 		
-		Cromosoma newIndividuos[] = new Cromosoma[2];
-		in1.setFenotipo(genotipoSon1);
-		in2.setFenotipo(genotipoSon2);
-		newIndividuos[0] = in1;
-		newIndividuos[1] = in2;
+		cromo1.setFenotipo(hijo1);
+		cromo2.setFenotipo(hijo2);
+		nuevosCromosomas[0] = cromo1;
+		nuevosCromosomas[1] = cromo2;
 		
-		return newIndividuos;
+		return nuevosCromosomas;
 		
 	}
 	
-	private int getCambiado(int toExchange, int[] origSon, int[] otherSon)
-	{
-		int res = toExchange;
+	private int getEquivalente(int valor, int[] arrayCromo1Cambiados, int[] arrayCromo2Cambiados){
 		
-		for(int i=0 ;i < origSon.length ;i++) {
+		int value = valor;
+		
+		for(int i=0 ;i < arrayCromo1Cambiados.length ;i++) {
 			
-			if (origSon[i] == res)
-			{
-				res = otherSon[i];
-				i = 0;
+			if(arrayCromo1Cambiados[i] == value){ 
+				
+				value = arrayCromo2Cambiados[i];
+				i =  -1 ;
+				
+				
 			}
 		}
 		
-		return res;
+		return value;
 		
 	}
 
