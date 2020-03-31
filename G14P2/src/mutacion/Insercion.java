@@ -19,7 +19,7 @@ public class Insercion {
 	
 	public void mutar() {
 		
-		int insertos = this.tamPoblacion/probMut;
+		int insertos = this.probMut/this.tamPoblacion;
 		for (int i = 0; i < this.tamPoblacion; ++i) {
 			for(int j = 0; j < insertos; ++j)
 				desplazar(this.poblacion[i].getFenotipo(), insertos*j, (insertos*j)+(probMut-1));

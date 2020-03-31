@@ -24,10 +24,10 @@ public class PMX implements Cruce{
 			
 		}
 		
-		int tamañoCorte = segundoCorte - primerCorte + 1;
+		int tamanoCorte = segundoCorte - primerCorte + 1;
 		
-		int[] in1Cambiados = new int[tamañoCorte];
-		int[] in2Cambiados = new int[tamañoCorte];
+		int[] in1Cambiados = new int[tamanoCorte];
+		int[] in2Cambiados = new int[tamanoCorte];
 		
 		ArrayList<Integer> hijo1 = new ArrayList<>(cromo1.getFenotipo().size());
 		ArrayList<Integer> hijo2 = new ArrayList<>(cromo1.getFenotipo().size());
@@ -54,7 +54,7 @@ public class PMX implements Cruce{
 				boolean boolIni1Cambiado = false; 
 				boolean boolIni2Cambiado = false;
 				
-				for (int j = 0; j < tamañoCorte; j++){
+				for (int j = 0; j < tamanoCorte; j++){
 					
 					// Para que solo haya un cambio he creado los boolean
 					

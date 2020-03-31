@@ -12,6 +12,7 @@ public class OX_PP implements Cruce{
 	public Cromosoma[] cruzar(Cromosoma in1, Cromosoma in2) {
 		// TODO Auto-generated method stub
 		
+		Cromosoma nuevosCromosomas[] = new Cromosoma[2];
 		int size = in1.getFenotipo().size();
 		Random aleatorio = new Random();
 		int totalCambios = aleatorio.nextInt(size / 2) + 1;
@@ -19,22 +20,20 @@ public class OX_PP implements Cruce{
 		ArrayList<Integer> hijos1 = new ArrayList<Integer>(totalCambios);
 		ArrayList<Integer> hijos2 = new ArrayList<Integer>(totalCambios);
 		ArrayList<Integer> indicesCambiados = new ArrayList<Integer>(totalCambios);
-		ArrayList<Integer> hijo1 = new ArrayList<>(size);
-		ArrayList<Integer> hijo2 = new ArrayList<>(size);
-		Cromosoma nuevosCromosomas[] = new Cromosoma[2];
+		
 		int nuevoIndice = -1;
-		int totalAñadidos = 0;
+		int totalAnadidos = 0;
 		
 		// En este while llenamos el array que contiene el valor de los indices cambiados
 		
-		while(totalAñadidos < totalCambios) {
+		while(totalAnadidos < totalCambios) {
 			
 			boolean repetido = false;
 			nuevoIndice = aleatorio.nextInt(size);
 			
-			if(totalAñadidos > 0) {
+			if(totalAnadidos > 0) {
 				
-				for(int i = 0 ; i < totalAñadidos; i++) {
+				for(int i = 0 ; i < totalAnadidos; i++) {
 					
 					if ( indicesCambiados.get(i) == nuevoIndice)
 					{	
@@ -46,11 +45,9 @@ public class OX_PP implements Cruce{
 				
 			}
 			
-			if(!repetido && totalAñadidos < totalCambios) {
-				
+			if(!repetido && totalAnadidos < totalCambios) {
 				indicesCambiados.add(nuevoIndice);
-				totalAñadidos ++;
-				
+				totalAnadidos ++;
 			}
 				
 		}
@@ -58,141 +55,122 @@ public class OX_PP implements Cruce{
 		
 		Collections.sort(indicesCambiados);
 		
-		for(Integer pos : indicesCambiados){
-			
+		for (Integer pos : indicesCambiados)
+		{
 			hijos1.add(in2.getFenotipo().get(pos));
 			hijos2.add(in1.getFenotipo().get(pos));
-			
-			}
+		}
+		
+		ArrayList<Integer> genotipoSon1 = new ArrayList<>(size);
+		ArrayList<Integer> genotipoSon2 = new ArrayList<>(size);
+		
+		int i=0;
+		
+		for (i = 0; i < size; i++)
+		{
+			genotipoSon1.add(-1);
+			genotipoSon2.add(-1);
+		}
 		
 		final int ultimoIndice = indicesCambiados.get( indicesCambiados.size() -1 );
-		int marca=0;
-		
-		for (int i = 0; i < size; i++){
-			
-			hijo1.add(-1);
-			hijo2.add(-1);
-			
-		}
-		
-		int numCambio = 0;
 		int k = (ultimoIndice + 1) % size;
-		marca = k;
-	 
+	    i = k;
+	    int j = 0;
 	    int aux;
 	    
-		while (k != ultimoIndice){
-			
-			if ((aux = encuentra( k, indicesCambiados )) != -1){
-				
-				hijo1.set(k, hijos1.get(aux));
-				
-				if (marca == k) marca = (marca + 1) % size;
-				
+		while (k != ultimoIndice)
+		{
+			if ((aux = encuentra( k, indicesCambiados )) != -1)
+			{
+				genotipoSon1.set(k, hijos1.get(aux));
+				if (i == k)
+					i = (i + 1) % size;
 				k = (k + 1) % size;
-				
 			}
-			
-			else if (marca != ultimoIndice){
-				
-				if (encuentra(in1.getFenotipo().get(marca), hijos1 ) != -1){
-					do{
-					marca = (marca + 1) % size;
-					}while((marca != ultimoIndice) && (encuentra( marca, indicesCambiados ) != -1));
-				} 
-				else {
-					
-					hijo1.set( k, in1.getFenotipo().get(marca) );
-					k = (k + 1) % size;
-					
+			else if (i != ultimoIndice)
+			{
+				if (encuentra(in1.getFenotipo().get(i), hijos1 ) != -1)
+				{
 					do {
-						marca = (marca + 1) % size;
-					}while((encuentra( marca, indicesCambiados ) != -1) && (marca != ultimoIndice));
-					
-				}
-			} 
-			
-			else{
-				
-				while((aux = encuentra( hijos2.get(numCambio), hijos1 )) != -1) numCambio++;
-				
-				hijo1.set(k, hijos2.get(numCambio));
-				k = (k + 1) % size;
-				numCambio++;
-			}
-			
-		}
-		
-		hijo1.set(ultimoIndice, hijos1.get(encuentra( ultimoIndice,indicesCambiados )));
-		
-		numCambio = 0;
-		k = (ultimoIndice + 1) % size;
-	    marca = k;
-	   
-	    
-	    while (k != ultimoIndice){
-	    	
-	    	if ((aux = encuentra( k,indicesCambiados)) != -1){
-	    		
-	    		hijo2.set(k, hijos2.get(aux));
-	    		
-				if (marca == k) marca = (marca + 1) % size;
-				
-				k = (k + 1) % size;
-			}
-	    	
-			else if (marca != ultimoIndice){
-				
-				if (encuentra( in2.getFenotipo().get(marca),hijos2 ) != -1){
-					
-					do{
-						marca = (marca + 1) % size;
-					}while( (marca != ultimoIndice) && ( encuentra( marca,indicesCambiados ) != -1) );
-				} 
-			
-				else{
-					
-					hijo2.set(k, in2.getFenotipo().get(marca));
+					i = (i + 1) % size;
+					} while ((encuentra( i, indicesCambiados ) != -1) && (i != ultimoIndice));
+				} else {
+					genotipoSon1.set( k, in1.getFenotipo().get(i) );
 					k = (k + 1) % size;
-					
 					do {
-						marca = (marca + 1) % size;
-					}while( (marca != ultimoIndice) && (encuentra( marca, indicesCambiados ) != -1) );
+						i = (i + 1) % size;
+					} while ((encuentra( i, indicesCambiados ) != -1) && (i != ultimoIndice));
 				}
-			} 
-			else{
-				
-				while((aux = encuentra( hijos1.get(numCambio), hijos2 )) != -1) numCambio++;
-				
-				hijo2.set(k, hijos1.get(numCambio));
+			} else {
+				while ((aux = encuentra( hijos2.get(j), hijos1 )) != -1)
+				{
+					j++;
+				}
+				genotipoSon1.set(k, hijos2.get(j));
 				k = (k + 1) % size;
-				numCambio++;
-				
+				j++;
 			}
 		}
-	    
-	    hijo2.set(ultimoIndice, hijos2.get(encuentra( ultimoIndice, indicesCambiados )));
+		genotipoSon1.set(ultimoIndice, hijos1.get(encuentra( ultimoIndice,indicesCambiados )));
 
-		in1.setFenotipo(hijo1);
-		in2.setFenotipo(hijo2);
+		k = (ultimoIndice + 1) % size;
+	    i = k;
+	    j = 0;
+	    while (k != ultimoIndice)
+		{
+	    	if ((aux = encuentra( k,indicesCambiados)) != -1)
+			{
+				genotipoSon2.set(k, hijos2.get(aux));
+				if (i == k)
+					i = (i + 1) % size;
+				k = (k + 1) % size;
+			}
+			else if (i != ultimoIndice)
+			{
+				if (encuentra( in2.getFenotipo().get(i),hijos2 ) != -1)
+				{
+					do {
+					i = (i + 1) % size;
+					} while ((encuentra( i,indicesCambiados ) != -1) && (i != ultimoIndice));
+				} else {
+					genotipoSon2.set(k, in2.getFenotipo().get(i));
+					k = (k + 1) % size;
+					do {
+						i = (i + 1) % size;
+					} while ((encuentra( i, indicesCambiados ) != -1) && (i != ultimoIndice));
+				}
+			} else {
+				while ((aux = encuentra( hijos1.get(j), hijos2 )) != -1)
+				{
+					j++;
+				}
+				genotipoSon2.set(k, hijos1.get(j));
+				k = (k + 1) % size;
+				j++;
+			}
+		}
+		genotipoSon2.set(ultimoIndice, hijos2.get(encuentra( ultimoIndice, indicesCambiados )));
+
+		in1.setFenotipo(genotipoSon1);
+		in2.setFenotipo(genotipoSon2);
 		nuevosCromosomas[0] = in1;
 		nuevosCromosomas[1] = in2;
 		
 		return nuevosCromosomas;
 	}
 	
-	private int encuentra( int valor, ArrayList<Integer> listaEnteros){
+	private int encuentra( int pos, ArrayList<Integer> listaEnteros)
+	{
+		int encontrado= -1; // Devuelve la posicion si lo encuentra, si no devuelve uno
 		
-		int posicion= -1; // Devuelve la posicion si lo encuentra, si no devuelve uno
-		
-		for (int i = 0; i < listaEnteros.size(); i++){
-			
-			if (valor == listaEnteros.get(i)){
-				posicion = i;
-				return posicion;
+		for (int i = 0; i < listaEnteros.size(); i++)
+		{
+			if (pos == listaEnteros.get(i)) {
+				encontrado = i;
+				return encontrado;
 			}
 		}
-		return posicion;
+		return encontrado;
 	}
 
 }

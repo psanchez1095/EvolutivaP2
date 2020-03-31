@@ -175,7 +175,7 @@ public class Vista extends javax.swing.JFrame {
             }
         });
         
-        cruceBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PMX","OX", "CO", "CX" ,"ERX" ,"OX-PP"}));
+        cruceBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PMX", "OX", "CO", "CX" ,"ERX" ,"OX_PP;"}));
         cruceBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	cruceBoxActionPerformed(evt);
@@ -408,7 +408,7 @@ public class Vista extends javax.swing.JFrame {
 			}
 			
 			algoritmo.seleccionaPoblacion();
-			algoritmo.reproducePoblacion();
+			//algoritmo.reproducePoblacion();
 			algoritmo.mutaPoblacion();
 			
 			if(algoritmo.getBooleanElite()) {
@@ -419,9 +419,13 @@ public class Vista extends javax.swing.JFrame {
 			algoritmo.aumentaGeneracion();
 			
 		}
-                
-                
-        this.mejorAbsolutoText.setText("Mejor absoluto: " + algoritmo.getMejor().getFitness());
+		
+		String aux ="Mejor combinacion: ";
+        for(int i = 0; i < algoritmo.getMejor().getLongitud(); ++i) {
+        	 aux += algoritmo.getMejor().getFenotipo().get(i).toString();
+        	 aux += " ";
+        }
+        this.mejorAbsolutoText.setText(aux);   
                 
 		
 

@@ -84,7 +84,7 @@ public class AlgoritmoGenetico {
 	
 	public void inicializaPoblacion() {
 		
-		leerFich(" ");
+		leerFich("Ficheros/ajuste.txt");
 		
 		for(int i = 0; i < tamPoblacion; i++) {
 			this.poblacion[i] = new Cromosoma(size);
@@ -167,9 +167,7 @@ public class AlgoritmoGenetico {
 		}
 	}
 	
-	/**
-	 * Cruza y muta la poblacion en funcion de probabilidadCruce y probabilidadMutacion.
-	 */
+
 	public void reproducePoblacion() {
 		
 		ArrayList<Cromosoma> poblacionCruce = new ArrayList<Cromosoma>();
@@ -231,8 +229,12 @@ public class AlgoritmoGenetico {
 				
 			}
 		}
-		
 
+		
+		
+		
+	
+	
 	
 	public void mutaPoblacion() {
 		switch(mutacion) {
@@ -402,14 +404,14 @@ public class AlgoritmoGenetico {
 		
 		public void leerFich (String filepath)
 		{
-			File file = new File("archivos/" + filepath); 
+			File file = new File(filepath); 
 		    Scanner sc;
 			try {
 				sc = new Scanner(file);
 				size = Integer.parseInt(sc.nextLine().trim().split("\\s+")[0]);
-				sc.nextLine(); //Linea en blanco
+				sc.nextLine(); 
 				distancias = leerMatrix(sc);
-				sc.nextLine(); //Linea en blanco
+				sc.nextLine(); 
 				flujos = leerMatrix(sc);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();

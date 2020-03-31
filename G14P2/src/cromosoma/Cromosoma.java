@@ -1,6 +1,7 @@
 	package cromosoma;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -25,11 +26,10 @@ public class Cromosoma implements Comparable<Cromosoma>{
 	}
     
     private void generarGen() {
-    	Random rn = new Random();
-    	this.fenotipo = new ArrayList<Integer>();
-    	for (int i = 0; i < this.longitud ; ++i) {
-    		this.fenotipo.add(rn.nextInt(longitud)+1);
-    	}
+    	fenotipo = new ArrayList<Integer>();
+		for (int i = 0; i < longitud; i++)
+			fenotipo.add(i);
+		Collections.shuffle(fenotipo);
     }
    public Cromosoma duplicarCromosoma(int size) {
 	    Cromosoma nuevo = new Cromosoma(size) ;

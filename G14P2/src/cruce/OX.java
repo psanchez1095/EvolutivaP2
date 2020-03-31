@@ -24,9 +24,9 @@ public class OX implements Cruce { //Cruce por orden
 			segundoCorte = aux;
 		}
 		
-		int tamañoCorte = segundoCorte - primerCorte + 1;
-		int[] cromo1Cambiados = new int[tamañoCorte];
-		int[] cromo2Cambiados = new int[tamañoCorte];
+		int tamanoCorte = segundoCorte - primerCorte + 1;
+		int[] cromo1Cambiados = new int[tamanoCorte];
+		int[] cromo2Cambiados = new int[tamanoCorte];
 		
 		for (int i = 0; i < size; i++){
 			
@@ -45,8 +45,8 @@ public class OX implements Cruce { //Cruce por orden
 			
 		}
 		Cromosoma cromoFor = new Cromosoma(cromo1.getLongitud());
-		int[] cromo1CambiadosFor = new int[tamañoCorte];
-		int[] cromo2CambiadosFor = new int[tamañoCorte];
+		int[] cromo1CambiadosFor = new int[tamanoCorte];
+		int[] cromo2CambiadosFor = new int[tamanoCorte];
 		ArrayList<Integer> hijoFor = new ArrayList<>(size);
 		
 		for(int vuelta = 0; vuelta < nuevosCromosomas.length ; vuelta++){
@@ -86,7 +86,7 @@ public class OX implements Cruce { //Cruce por orden
 				}
 			} 
 			else{
-				for (int j = 0; j < tamañoCorte; j++){
+				for (int j = 0; j < tamanoCorte; j++){
 					if (!elementInArray(cromo2CambiadosFor[j], cromo1CambiadosFor)){
 						
 						hijoFor.set(nuevaPos, cromo2CambiadosFor[j]);
