@@ -2,7 +2,6 @@ package mutacion;
 
 import java.util.ArrayList;
 
-
 import cromosoma.Cromosoma;
 
 public class Heuristica {
@@ -17,28 +16,28 @@ public class Heuristica {
 	private ArrayList<Integer> posMut;
 	private ArrayList<Integer> genotipo;
 	private ArrayList<Integer> bestGenotipo;
-	private int bestFitness;
+	private double bestFitness;
 	private int tamGen;
 	static int genes = 3;// genes a mutar 
-	
+	int[] nuevaCombinacion = new int[genes];
+	static boolean[] cambiados = new boolean[genes];
 	
 	public Heuristica (double probMut, int tamPoblacion, Cromosoma[] poblacion, int[][] f, int [][]d) {
+		
 		this.probMut = (int)(this.probMut*100);
 		this.tamPoblacion = tamPoblacion;
 		this.poblacion = poblacion;
 		this.f = f;
 		this.d = d;
+		
 	}
-	
 	
 	public void mutar() {
-		for (int i = 0; i < tamPoblacion ; ++i) {
-			poblacion[i].setFenotipo(mutarCromosoma(poblacion[i]));
-		}
+		for (int i = 0; i < tamPoblacion ; ++i) poblacion[i].setFenotipo(mutarCromosoma(poblacion[i]));
 	}
 	
-	
 	public ArrayList<Integer> mutarCromosoma (Cromosoma indv) {
+		
 		genotipo = indv.getFenotipo();
 		tamGen = genotipo.size();	
 		ArrayList<ArrayList<Integer>> mtx;
@@ -50,13 +49,21 @@ public class Heuristica {
 			
 		//Cargamos los arrays
 		for(int i = 0; i < genes; i++) {
-			int p = (int) (Math.random()*tamGen);
+			
+			int p = (int) (Math.random()*(tamGen-1));
+			
 			if(!valMut.contains(genotipo.get(p))) { 
 				valMut.add(genotipo.get(p));
 				posMut.add(p);
 			}
+			
 			else i--;	
+			
 		}
+		
+		// hasta aqui bien
+//		int vuelta = 0;
+//		crearFenotiposReflex(valMut, nuevaCombinacion,vuelta);
 		
 		mtx = permute(valMut);
 		
@@ -70,8 +77,8 @@ public class Heuristica {
 			if (aux < bestFitness)bestGenotipo = genotipo;
 		}
 		
-		
 		return bestGenotipo;
+		
 	}
 	
 	 public ArrayList<ArrayList<Integer>> permute(ArrayList<Integer> a) {
@@ -112,17 +119,54 @@ public class Heuristica {
 		
 	
 	private int resultadoHeuristica(ArrayList<Integer> fenotipo) {
+		
 		int total = 0;
-		for (int i = 0; i < fenotipo.size(); i++)
-		{
+		
+		for (int i = 0; i < fenotipo.size(); i++){
+			
 			for (int j = 0; j < fenotipo.size(); j++)
-			{
 				total += d[i][j] * f[fenotipo.get(i)][fenotipo.get(j)];
-			}
+			
 		}
+		
 		return total;
+		
 	}
 	
+//	public void crearFenotiposReflex(ArrayList<Integer> valMut, int[] nuevaCombinacion, int numeroVuelta) {
+//		
+//		if (numeroVuelta != genes) {
+//			
+//			for (int i = 0; i < valMut.size(); i++){
+//				
+//				if (cambiados[i] == true) {}
+//				
+//				else { 
+//					
+//					cambiados[i] = true;
+//					nuevaCombinacion[genes] = valMut.get(i);
+//					crearFenotiposReflex(valMut, nuevaCombinacion, numeroVuelta + 1);
+//					cambiados[i] = false;
+//					
+//				}
+//			}
+//			
+//		}
+//		else{
+//			for (int i = 0; i< numeroVuelta; i++) genotipo.set(posMut.get(i), nuevaCombinacion[i]);
+//
+//			in.setFenotipo(genotipo);
+//			
+//			if(in.getFitness() <= bestFitness) {
+//				
+//				bestGenotipo = new ArrayList<>(genes);
+//				bestFitness = in.getFitness();
+//				for(int j = 0; j < genes; j++) bestGenotipo.add(genotipo.get(j));	
+//				
+//			}
+//		}
+//		
+//	}
 
 	
 }

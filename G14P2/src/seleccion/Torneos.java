@@ -14,7 +14,7 @@ public class Torneos {
 	}
 	
 
-	public void seleccionTorneos(TipoMutacion tFunc, double prec, int nGenes) {
+	public void seleccionTorneos(TipoMutacion tFunc, int nGenes) {
         int posicionElegido = -1;
         double [] fitnessIndiv = new double[tamPob];
         for (int i = 0; i < this.tamPob; i++) {
@@ -34,7 +34,7 @@ public class Torneos {
                     posicionElegido = aleatorio;
                 }
             }
-            nuevaPob[i] = duplicarCromosoma(this.pob[posicionElegido], tFunc, prec, nGenes);
+            nuevaPob[i] = duplicarCromosoma(this.pob[posicionElegido], tFunc, nGenes);
         }
         this.pob = nuevaPob;
 
@@ -47,7 +47,7 @@ public class Torneos {
 			  else return otro;
 	}
 	
-	private Cromosoma duplicarCromosoma(Cromosoma c, TipoMutacion tipoFuncion, double precision, int numGenes) {
+	private Cromosoma duplicarCromosoma(Cromosoma c, TipoMutacion tipoFuncion, int numGenes) {
 	    Cromosoma nuevo = new Cromosoma(c.getLongitud());
     	nuevo.setFenotipo(c.getFenotipo());
         nuevo.setFitness(c.getFitness());

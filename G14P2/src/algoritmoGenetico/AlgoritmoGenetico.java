@@ -33,7 +33,8 @@ public class AlgoritmoGenetico {
 	TipoSeleccion tipo_seleccion;
 	TipoCruce tipo_cruce;
 	int tamPoblacion, numGeneraciones, numGenes, generacionActual;
-	double probabilidadCruce, probabilidadMutacion, probabilidadUniforme, precision, elitismo;
+	double probabilidadCruce, probabilidadMutacion, probabilidadUniforme, elitismo;
+	String precision;
 	boolean booleanElite;
 	//Valores para escribir la grafica.
 	double[] mediasGeneracion;
@@ -53,7 +54,7 @@ public class AlgoritmoGenetico {
 	
 	public AlgoritmoGenetico(TipoMutacion tMut, TipoSeleccion tSel, TipoCruce tCrux,
 							 int tPob, int nGeneracs, int nGenes, 
-							 double pCruce, double pMutacion, double pUnif, double prec,
+							 double pCruce, double pMutacion, double pUnif, String prec,
 							 double elit) {
 
 		this.generacionActual = 0;
@@ -84,7 +85,7 @@ public class AlgoritmoGenetico {
 	
 	public void inicializaPoblacion() {
 		
-		leerFich("Ficheros/ajuste.txt");
+		leerFich(precision);
 		
 		for(int i = 0; i < tamPoblacion; i++) {
 			this.poblacion[i] = new Cromosoma(size);
@@ -109,20 +110,27 @@ public class AlgoritmoGenetico {
 
 	public void evaluaPoblacion() {
 		double fitness, fitness_best, sum_fitness = 0;
-		int pos_fitness_best = 0;
+		//int pos_fitness_best = 0;
+		int num_elites = (int) (this.tamPoblacion * this.elitismo);
 		fitness_best = 100000;
 		
 		
-		
-		for(int i = 0; i < this.poblacion.length-1; i++) {
+		for(int i = 0; i < this.poblacion.length; i++) {
 			fitness = fitness(this.poblacion[i]);
-
-			if((fitness < fitness_best)) {
-				fitness_best = fitness;
-				pos_fitness_best = i; 
-			}
-				sum_fitness += fitness;
+			sum_fitness += fitness;
 		}
+		
+		ordenarPoblacion(0, this.tamPoblacion-1);
+
+		
+		fitness_best = this.poblacion[0].getFitness();
+		
+		//pos_fitness_best = (int)(elitismo*100.0d);
+		if(fitness_best < elMejor.getFitness()) {
+			elMejor = this.duplicarCromosoma(this.poblacion[0]); 
+		}
+		 
+		
 		double puntuacion = 0, puntuacion_acu = 0;
 		
 		for(int i = 0; i < this.tamPoblacion; i++) {
@@ -131,15 +139,8 @@ public class AlgoritmoGenetico {
 			this.poblacion[i].setPuntuacion(puntuacion);
 			this.poblacion[i].setPuntAcumulada(puntuacion_acu);
 		}
-		
-		
-		if(elMejor.getFitness() > this.poblacion[pos_fitness_best].getFitness()) {
-			elMejor = this.duplicarCromosoma(this.poblacion[pos_fitness_best]); 
-		} 
-
-		
-		
-		this.mediasGeneracion[this.generacionActual] = sum_fitness / this.tamPoblacion;
+				
+		this.mediasGeneracion[this.generacionActual] = sum_fitness / (int)this.poblacion.length;
 		this.mejoresGeneracion[this.generacionActual] = fitness_best;
 		this.mejoresAbsolutos[this.generacionActual] = this.elMejor.getFitness();
 		
@@ -150,7 +151,7 @@ public class AlgoritmoGenetico {
 		switch(tipo_seleccion) {
 		case ESTOCASTICO: 
 			EstocasticoUniversal estocastUniv = new EstocasticoUniversal(this.poblacion, this.tamPoblacion);
-			estocastUniv.seleccionEstocastico(this.mutacion, this.precision, this.numGenes);
+			estocastUniv.seleccionEstocastico(this.mutacion, this.numGenes);
 			break;
 		case RULETA: 
 			Ruleta ruleta = new Ruleta(this.poblacion, this.tamPoblacion);
@@ -158,8 +159,20 @@ public class AlgoritmoGenetico {
 			break;
 		case TORNEO:
 			Torneos torneos = new Torneos(this.poblacion, this.tamPoblacion);
-			torneos.seleccionTorneos(this.mutacion, this.precision, this.numGenes);
-			break;	
+			torneos.seleccionTorneos(this.mutacion, this.numGenes);
+			break;
+		case RANKING: 
+			Ranking ranking = new Ranking(this.poblacion, this.tamPoblacion, 2);
+			ranking.seleccionRanking();
+			break;
+		case TRUNCAMIENTO10: 
+			truncamiento tr= new truncamiento(this.poblacion, this.tamPoblacion, true);
+			tr.seleccionaTruncamiento();
+			break;
+		case TRUNCAMIENTO50: 
+			truncamiento tru= new truncamiento(this.poblacion, this.tamPoblacion, false);
+			tru.seleccionaTruncamiento();
+			break;
 		default:
 			Ruleta r = new Ruleta(this.poblacion, this.tamPoblacion);
 			r.seleccionRuleta();
@@ -270,13 +283,15 @@ public class AlgoritmoGenetico {
     	this.elite.clear();
     	
     	for (int i = 0 ; i < num_elites; i++)
-    		this.elite.add(duplicarCromosoma(this.poblacion[this.tamPoblacion-i-1]));
-    	
+    		this.elite.add(duplicarCromosoma(this.poblacion[i]));
 	}
 	
 	public void incluyeElite() {
-		for(int i = 0; i < this.elite.size() ; i++) {		
-			this.poblacion[i] = elite.get(i);
+		int aux = 0;
+    	this.ordenarPoblacion(0, this.tamPoblacion-1);
+		for(int i = this.tamPoblacion-1; i > this.tamPoblacion-this.elite.size()-1 ; i--) {
+			this.poblacion[i] = elite.get(aux);
+			aux++;
 		}
 	}
 	
@@ -352,7 +367,7 @@ public class AlgoritmoGenetico {
     	return this.probabilidadMutacion;
     }
     
-    public double getPrecision() {
+    public String getPrecision() {
     	return this.precision;
     }
 
@@ -404,7 +419,7 @@ public class AlgoritmoGenetico {
 		
 		public void leerFich (String filepath)
 		{
-			File file = new File(filepath); 
+			File file = new File("Ficheros/"+filepath); 
 		    Scanner sc;
 			try {
 				sc = new Scanner(file);

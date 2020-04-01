@@ -99,7 +99,7 @@ public class Vista extends javax.swing.JFrame {
 
        
 
-        jLabel1.setText("Tama�o de poblacion:");
+        jLabel1.setText("Tamano de poblacion:");
         jLabel2.setText("Numero de generaciones:");
         jLabel3.setText("Porcentaje de cruces:");
         jLabel4.setText("Porcentaje uniforme:");
@@ -146,7 +146,7 @@ public class Vista extends javax.swing.JFrame {
         	}
         });
         
-        precisionText.setText("0.001");
+        precisionText.setText("ajuste.txt");
         precisionText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 precisionTextActionPerformed(evt);
@@ -161,7 +161,7 @@ public class Vista extends javax.swing.JFrame {
             }
         });
 
-        seleccionBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "RULETA", "TORNEO", "ESTOCASTICO", "RANKING", "TRUNCAMIENTO"}));
+        seleccionBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "RULETA", "TORNEO", "ESTOCASTICO", "RANKING", "TRUNCAMIENTO10", "TRUNCAMIENTO50"}));
         seleccionBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	seleccionBoxActionPerformed(evt);
@@ -175,7 +175,7 @@ public class Vista extends javax.swing.JFrame {
             }
         });
         
-        cruceBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PMX", "OX", "CO", "CX" ,"ERX" ,"OX_PP;"}));
+        cruceBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PMX", "OX", "CO", "CX" ,"ERX" ,"OX_PP"}));
         cruceBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	cruceBoxActionPerformed(evt);
@@ -356,7 +356,8 @@ public class Vista extends javax.swing.JFrame {
 	// Codigo que se ejecuta al presionar el boton de "Evaluar poblacion"
 	private void evaluarButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_evaluarButtonActionPerformed
 		int tamPoblacion, numGeneraciones, numGenes;
-		double probabilidadCruce, probabilidadMutacion, probabilidadUniforme, precision, elitismo;
+		double probabilidadCruce, probabilidadMutacion, probabilidadUniforme, elitismo;
+		String precision;
 		TipoSeleccion tipo_seleccion;
 		TipoCruce tipo_cruce;
 		TipoMutacion tipo_mutacion;
@@ -372,7 +373,7 @@ public class Vista extends javax.swing.JFrame {
 			probabilidadCruce = Double.parseDouble(this.porcentajeCrucesText.getText());
 			probabilidadMutacion = Double.parseDouble(this.porcentajeMutacionesText.getText());
 			probabilidadUniforme = Double.parseDouble(this.porcentajeUniformeText.getText());
-			precision = Double.parseDouble(this.precisionText.getText());
+			precision = this.precisionText.getText();
 			elitismo = Double.parseDouble(this.elitismoText.getText());
 			tipo_seleccion = TipoSeleccion.valueOf(this.seleccionBox.getSelectedItem().toString());
 			tipo_cruce = TipoCruce.valueOf(this.cruceBox.getSelectedItem().toString());
@@ -403,17 +404,17 @@ public class Vista extends javax.swing.JFrame {
 		
 		for (int i = 0; i < numGeneraciones; i++) {
 			
-			if(algoritmo.getBooleanElite()) {
+			//if(algoritmo.getBooleanElite()) {
 				algoritmo.seleccionaElite();
-			}
+			//}
 			
 			algoritmo.seleccionaPoblacion();
-			//algoritmo.reproducePoblacion();
+			algoritmo.reproducePoblacion();
 			algoritmo.mutaPoblacion();
 			
-			if(algoritmo.getBooleanElite()) {
+			//if(algoritmo.getBooleanElite()) {
 			algoritmo.incluyeElite();
-			}   
+			//}   
 			
 			algoritmo.evaluaPoblacion();
 			algoritmo.aumentaGeneracion();
@@ -444,13 +445,13 @@ public class Vista extends javax.swing.JFrame {
 		Main.plot.removeAllPlots();
 		Main.plot.addLinePlot("Mejor absoluto", Color.BLUE, x, y);
 		Main.plot.addLinePlot("Media fitness", Color.RED, x, k);
-//		Main. plot.addLinePlot("Mejor", Color.GREEN, x, z);
+		Main. plot.addLinePlot("Mejor", Color.GREEN, x, z);
 
 		
-		if(algoritmo.getBooleanElite()) {
-			Main. plot.addLinePlot("Mejor", Color.GREEN, x, y);
-		}else
-			Main. plot.addLinePlot("Mejor", Color.GREEN, x, z);
+//		if(algoritmo.getBooleanElite()) {
+//			Main. plot.addLinePlot("Mejor", Color.GREEN, x, y);
+//		}else
+//			Main. plot.addLinePlot("Mejor", Color.GREEN, x, z);
 		
 		
 		

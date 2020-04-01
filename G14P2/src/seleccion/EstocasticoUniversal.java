@@ -14,7 +14,7 @@ public class EstocasticoUniversal {
 	}
 	
 
-	public void seleccionEstocastico(TipoMutacion tFunc, double prec, int nGenes) {
+	public void seleccionEstocastico(TipoMutacion tFunc, int nGenes) {
         double total = 0.0;
         double[] fitnessIndiv = new double[this.tamPob];
         double[] valores = new double[this.tamPob];
