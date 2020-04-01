@@ -324,7 +324,7 @@ public class Vista extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
-                                .addComponent(mejorAbsolutoText, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(mejorAbsolutoText, javax.swing.GroupLayout.PREFERRED_SIZE, 785, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(graficaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -345,8 +345,8 @@ public class Vista extends javax.swing.JFrame {
                 .addComponent(graficaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(11, 11, 11)
                 .addComponent(mejorAbsolutoText, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
-                .addComponent(evaluarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(70, 70, 70)
+                .addComponent(evaluarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33))
         );
 
@@ -421,13 +421,35 @@ public class Vista extends javax.swing.JFrame {
 			
 		}
 		
-		String aux ="Mejor combinacion: ";
+		String aux ="Mejor combinacion: [";
         for(int i = 0; i < algoritmo.getMejor().getLongitud(); ++i) {
+        	 
         	 aux += algoritmo.getMejor().getFenotipo().get(i).toString();
-        	 aux += " ";
+        	 if(i != algoritmo.getMejor().getLongitud() - 1 ) aux+= ", ";
+        	 
         }
-        this.mejorAbsolutoText.setText(aux);   
-                
+        aux += "]";
+        String aux2 ="  Aptitud: ";
+       
+        aux2 += algoritmo.getMejor().getFitness();
+        
+        String aux3 ="  Peor combinacion: [";
+        for(int i = 0; i < algoritmo.getMejor().getLongitud(); ++i) {
+        	 
+        	aux3 += algoritmo.getPeor().getFenotipo().get(i).toString();
+        	 if(i != algoritmo.getPeor().getLongitud() - 1 ) aux3+= ", ";
+        	 
+        }
+        aux3 += "]";
+        String aux4 ="  Aptitud: ";
+       
+        aux4 += algoritmo.getPeor().getFitness();
+
+        
+        
+       
+        this.mejorAbsolutoText.setText(aux  + aux2 + aux3 + aux4);   
+       
 		
 
 		// define your data
@@ -440,12 +462,14 @@ public class Vista extends javax.swing.JFrame {
 		double[] y = algoritmo.getMejoresAbsolutos();
 		double[] z = algoritmo.getMejoresGeneracion();
 		double[] k = algoritmo.getMedias();
-		
+		double[] p = algoritmo.getPeoresAbsolutos();
 		
 		Main.plot.removeAllPlots();
-		Main.plot.addLinePlot("Mejor absoluto", Color.BLUE, x, y);
-		Main.plot.addLinePlot("Media fitness", Color.RED, x, k);
-		Main. plot.addLinePlot("Mejor", Color.GREEN, x, z);
+		Main.plot.addLinePlot("Mejor absoluto", Color.CYAN, x, y);
+		Main.plot.addLinePlot("Media fitness", Color.YELLOW, x, k);
+		Main. plot.addLinePlot("Mejor", Color.GREEN , x, z);
+		Main. plot.addLinePlot("Peor", Color.RED, x, p);
+
 
 		
 //		if(algoritmo.getBooleanElite()) {

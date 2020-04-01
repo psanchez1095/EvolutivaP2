@@ -40,12 +40,14 @@ public class AlgoritmoGenetico {
 	double[] mediasGeneracion;
 	double[] mejoresGeneracion;
 	double[] mejoresAbsolutos;
+	double[] peoresAbsolutos;
 
 	double mediaGeneracion;
 	double mejorGeneracion;
 	double mejorAbsoluto;
 	
 	private Cromosoma elMejor; //Mejor cromosoma encontrado hasta ahora.
+	private Cromosoma elPeor;
 	int pos_mejorGeneracion;   //Posicion del mejor cromosoma de la generacion
 	
 	private int[][] flujos;
@@ -79,6 +81,7 @@ public class AlgoritmoGenetico {
 		this.mediasGeneracion = new double[nGeneracs];
 		this.mejoresGeneracion = new double[nGeneracs];
 		this.mejoresAbsolutos = new double[nGeneracs];
+		this.peoresAbsolutos = new double[nGeneracs];
 		
 		
 	}
@@ -92,7 +95,9 @@ public class AlgoritmoGenetico {
 		}
 		
         this.elMejor = this.duplicarCromosoma(this.poblacion[0]);
+        this.elPeor = this.duplicarCromosoma(this.poblacion[size - 1]);
         fitness(elMejor);
+        fitness(elPeor);
         this.generacionActual = 0;
 
 	}
@@ -129,6 +134,12 @@ public class AlgoritmoGenetico {
 		if(fitness_best < elMejor.getFitness()) {
 			elMejor = this.duplicarCromosoma(this.poblacion[0]); 
 		}
+		/////Esto es lo del peor
+		for(int i = 0; i < this.poblacion.length; i++) {
+			if(this.poblacion[i].getFitness() > elPeor.getFitness()) {
+				elPeor = this.duplicarCromosoma(this.poblacion[i]); 
+			}
+		}
 		 
 		
 		double puntuacion = 0, puntuacion_acu = 0;
@@ -143,7 +154,7 @@ public class AlgoritmoGenetico {
 		this.mediasGeneracion[this.generacionActual] = sum_fitness / (int)this.poblacion.length;
 		this.mejoresGeneracion[this.generacionActual] = fitness_best;
 		this.mejoresAbsolutos[this.generacionActual] = this.elMejor.getFitness();
-		
+		this.peoresAbsolutos[this.generacionActual] = this.elPeor.getFitness();
 	}
 	
 	public void seleccionaPoblacion() {
@@ -386,6 +397,9 @@ public class AlgoritmoGenetico {
 	public Cromosoma getMejor() {
 		return duplicarCromosoma(this.elMejor);
 	}
+	public Cromosoma getPeor() {
+		return duplicarCromosoma(this.elPeor);
+	}
 
 	public void aumentaGeneracion() {
 		this.generacionActual++;
@@ -432,6 +446,14 @@ public class AlgoritmoGenetico {
 				e.printStackTrace();
 			}    
 	}
+
+		public double[] getPeoresAbsolutos() {
+			return peoresAbsolutos;
+		}
+
+		public void setPeoresAbsolutos(double[] peoresAbsolutos) {
+			this.peoresAbsolutos = peoresAbsolutos;
+		}
 
 
 		
