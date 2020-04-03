@@ -19,8 +19,8 @@ public class Ruleta {
 	}
 	
 
-	public void seleccionRuleta() {
-		
+	public int seleccionRuleta() {
+		int numSel = 0;
 		for(int i = 0; i < this.tamPob; i++) {
 			this.prob = Math.random();
 			this.posSuperviviente = 0;
@@ -38,7 +38,8 @@ public class Ruleta {
 		for(int j = 0; j < this.tamPob; j++) {
 			this.nuevaPob[j] = this.pob[this.supervivientes[j]];
 		}
-		
+		numSel = 99;
 		this.pob = this.nuevaPob;
+		return numSel;
 	}
 }

@@ -1,6 +1,7 @@
 package mutacion;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import cromosoma.Cromosoma;
 
@@ -24,20 +25,27 @@ public class Heuristica {
 	
 	public Heuristica (double probMut, int tamPoblacion, Cromosoma[] poblacion, int[][] f, int [][]d) {
 		
-		this.probMut = (int)(this.probMut*100);
+		this.probMut = (int)(this.probMut*100.0d);
 		this.tamPoblacion = tamPoblacion;
 		this.poblacion = poblacion;
 		this.f = f;
 		this.d = d;
-		
 	}
 	
-	public void mutar() {
-		for (int i = 0; i < tamPoblacion ; ++i) poblacion[i].setFenotipo(mutarCromosoma(poblacion[i]));
+	public int mutar() {
+		int numMut = 0;
+		for (int i = 0; i < tamPoblacion ; ++i) {
+			Random rn = new Random();
+			if(rn.nextInt() < probMut) {
+				numMut++;
+				poblacion[i].setFenotipo(mutarCromosoma(poblacion[i]));
+			}
+		}
+		return numMut;
 	}
 	
 	public ArrayList<Integer> mutarCromosoma (Cromosoma indv) {
-		
+		try {
 		genotipo = indv.getFenotipo();
 		tamGen = genotipo.size();	
 		ArrayList<ArrayList<Integer>> mtx;
@@ -76,7 +84,7 @@ public class Heuristica {
 			aux = resultadoHeuristica(genotipo);
 			if (aux < bestFitness)bestGenotipo = genotipo;
 		}
-		
+		}catch(Exception e) {}
 		return bestGenotipo;
 		
 	}

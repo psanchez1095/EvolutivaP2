@@ -7,6 +7,7 @@ public class truncamiento {
 	private Cromosoma[] poblacion;
 	private int tamPob;
 	boolean porc;  //si la probabilidad es 0.1 porc sera true y 0.5 sera false
+
 	
 	public truncamiento (Cromosoma[] pob, int tamPob, boolean porc) { 
 		this.poblacion = pob;
@@ -14,17 +15,19 @@ public class truncamiento {
 		this.porc = porc;
 	}
 	
-	public void seleccionaTruncamiento() {
+	public int seleccionaTruncamiento() {
+		int numSel = 0;
 		ordenarPoblacion(0, tamPob-1);
 		int mod;
 		if(porc)mod = 10;
 		else mod = 50;
+		numSel = mod;
 		
 		for (int i = 0; i < tamPob ; ++i) {
 			this.poblacion[i] = this.poblacion[i%mod];
 		}
 		
-	
+		return numSel;
 	}
 	
 	

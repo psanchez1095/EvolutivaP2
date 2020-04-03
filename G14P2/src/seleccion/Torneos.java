@@ -14,8 +14,8 @@ public class Torneos {
 	}
 	
 
-	public void seleccionTorneos(TipoMutacion tFunc, int nGenes) {
-        int posicionElegido = -1;
+	public int seleccionTorneos(TipoMutacion tFunc, int nGenes) {
+        int posicionElegido = -1, numSel = 0;
         double [] fitnessIndiv = new double[tamPob];
         for (int i = 0; i < this.tamPob; i++) {
             //calculamos el total
@@ -32,12 +32,13 @@ public class Torneos {
                 if (compararFitness(fitnessIndiv[aleatorio], mejor, tFunc) != mejor) {
                     mejor = fitnessIndiv[aleatorio];
                     posicionElegido = aleatorio;
+                    numSel++;
                 }
             }
             nuevaPob[i] = duplicarCromosoma(this.pob[posicionElegido], tFunc, nGenes);
         }
         this.pob = nuevaPob;
-
+        return numSel;
 	}
 	
 	

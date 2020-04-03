@@ -11,11 +11,9 @@ import cromosoma.Cromosoma;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-import cromosoma.*;
 import seleccion.*;
 import utils.*;
 
@@ -53,7 +51,9 @@ public class AlgoritmoGenetico {
 	private int[][] flujos;
 	private int[][] distancias;
 	private int size;
+	int numMutaciones = 0, numCruzes = 0,numSelecionados = 0;
 	
+
 	public AlgoritmoGenetico(TipoMutacion tMut, TipoSeleccion tSel, TipoCruce tCrux,
 							 int tPob, int nGeneracs, int nGenes, 
 							 double pCruce, double pMutacion, double pUnif, String prec,
@@ -116,7 +116,6 @@ public class AlgoritmoGenetico {
 	public void evaluaPoblacion() {
 		double fitness, fitness_best, sum_fitness = 0;
 		//int pos_fitness_best = 0;
-		int num_elites = (int) (this.tamPoblacion * this.elitismo);
 		fitness_best = 100000;
 		
 		
@@ -162,31 +161,31 @@ public class AlgoritmoGenetico {
 		switch(tipo_seleccion) {
 		case ESTOCASTICO: 
 			EstocasticoUniversal estocastUniv = new EstocasticoUniversal(this.poblacion, this.tamPoblacion);
-			estocastUniv.seleccionEstocastico(this.mutacion, this.numGenes);
+			this.numSelecionados += estocastUniv.seleccionEstocastico(this.mutacion, this.numGenes);
 			break;
 		case RULETA: 
 			Ruleta ruleta = new Ruleta(this.poblacion, this.tamPoblacion);
-			ruleta.seleccionRuleta();
+			this.numSelecionados += ruleta.seleccionRuleta();
 			break;
 		case TORNEO:
 			Torneos torneos = new Torneos(this.poblacion, this.tamPoblacion);
-			torneos.seleccionTorneos(this.mutacion, this.numGenes);
+			this.numSelecionados += torneos.seleccionTorneos(this.mutacion, this.numGenes);
 			break;
 		case RANKING: 
 			Ranking ranking = new Ranking(this.poblacion, this.tamPoblacion, 2);
-			ranking.seleccionRanking();
+			this.numSelecionados += ranking.seleccionRanking();
 			break;
 		case TRUNCAMIENTO10: 
 			truncamiento tr= new truncamiento(this.poblacion, this.tamPoblacion, true);
-			tr.seleccionaTruncamiento();
+			this.numSelecionados += tr.seleccionaTruncamiento();
 			break;
 		case TRUNCAMIENTO50: 
 			truncamiento tru= new truncamiento(this.poblacion, this.tamPoblacion, false);
-			tru.seleccionaTruncamiento();
+			this.numSelecionados += tru.seleccionaTruncamiento();
 			break;
 		default:
 			Ruleta r = new Ruleta(this.poblacion, this.tamPoblacion);
-			r.seleccionRuleta();
+			this.numSelecionados += r.seleccionRuleta();
 			break;
 		}
 	}
@@ -245,7 +244,7 @@ public class AlgoritmoGenetico {
 				indicePadres.remove(indicePadre2);
 				poblacionCruce.remove(indicePadre2);
 
-				
+				this.numCruzes += this.tamPoblacion/2-1;
 				Cromosoma[] hijos = cruce.cruzar(padre1.duplicarCromosoma(size), padre2.duplicarCromosoma(size));
 				
 				this.poblacion[padre1IndividuoIndex] = hijos[0];
@@ -264,23 +263,23 @@ public class AlgoritmoGenetico {
 		switch(mutacion) {
 		case INSERCION:
 				Insercion ins = new Insercion(probabilidadMutacion, tamPoblacion, poblacion);
-				ins.mutar();
+				this.numMutaciones += ins.mutar();
 			break;
 		case INTERCAMBIO:
 				Intercambio inte = new Intercambio(probabilidadMutacion, tamPoblacion, poblacion);
-				inte.mutar();
+				this.numMutaciones += inte.mutar();
 			break;
 		case INVERSION:
 				Inversion inv = new Inversion(probabilidadMutacion, tamPoblacion, poblacion);
-				inv.mutar();
+				this.numMutaciones += inv.mutar();
 			break;
 		case HEURISTICA:
 			Heuristica heu = new Heuristica(probabilidadMutacion, tamPoblacion, poblacion, flujos, distancias);
-			heu.mutar();
+			this.numMutaciones += heu.mutar();
 		break;
 		default:
-			Insercion in = new Insercion(probabilidadMutacion, tamPoblacion, poblacion);
-			in.mutar();
+			Insercion inse = new Insercion(probabilidadMutacion, tamPoblacion, poblacion);
+			this.numMutaciones += inse.mutar();
 		break;
 		}
 			
@@ -455,6 +454,30 @@ public class AlgoritmoGenetico {
 			this.peoresAbsolutos = peoresAbsolutos;
 		}
 
+
+		public int getNumMutaciones() {
+			return numMutaciones;
+		}
+
+		public void setNumMutaciones(int numMutaciones) {
+			this.numMutaciones = numMutaciones;
+		}
+
+		public int getNumCruzes() {
+			return numCruzes;
+		}
+
+		public void setNumCruzes(int numCruzes) {
+			this.numCruzes = numCruzes;
+		}
+
+		public int getNumSelecionados() {
+			return numSelecionados;
+		}
+
+		public void setNumSelecionados(int numSelecionados) {
+			this.numSelecionados = numSelecionados;
+		}
 
 		
 

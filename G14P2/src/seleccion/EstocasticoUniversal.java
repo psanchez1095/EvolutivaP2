@@ -14,7 +14,8 @@ public class EstocasticoUniversal {
 	}
 	
 
-	public void seleccionEstocastico(TipoMutacion tFunc, int nGenes) {
+	public int seleccionEstocastico(TipoMutacion tFunc, int nGenes) {
+		int numSel = 0;
         double total = 0.0;
         double[] fitnessIndiv = new double[this.tamPob];
         double[] valores = new double[this.tamPob];
@@ -46,6 +47,7 @@ public class EstocasticoUniversal {
                 if (valor < valores[j]) {
                     generacionNueva[i] = duplicarCromosoma(this.pob[j]);
                     encontrado = true;
+                    numSel++;
                 } else {
                     j++;
                 }
@@ -56,6 +58,7 @@ public class EstocasticoUniversal {
         }
         this.pob = generacionNueva;
 
+        return numSel;
 	}
 	
 	private Cromosoma duplicarCromosoma(Cromosoma c) {

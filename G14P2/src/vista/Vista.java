@@ -43,7 +43,8 @@ public class Vista extends javax.swing.JFrame {
 
         evaluarButton = new javax.swing.JButton();
         mejorAbsolutoText = new javax.swing.JLabel();
-        mejorFXText = new javax.swing.JLabel();
+        peorAbsoluto = new javax.swing.JLabel();
+        numOperaciones = new javax.swing.JLabel();
         
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -324,7 +325,13 @@ public class Vista extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
-                                .addComponent(mejorAbsolutoText, javax.swing.GroupLayout.PREFERRED_SIZE, 785, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(mejorAbsolutoText, javax.swing.GroupLayout.PREFERRED_SIZE,800, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                    .addGap(10, 10, 10)
+                                    .addComponent(peorAbsoluto, javax.swing.GroupLayout.PREFERRED_SIZE,800, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                    .addGap(10, 10, 10)
+                                    .addComponent(numOperaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(graficaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -345,7 +352,11 @@ public class Vista extends javax.swing.JFrame {
                 .addComponent(graficaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(11, 11, 11)
                 .addComponent(mejorAbsolutoText, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(70, 70, 70)
+                .addGap(10, 10, 10)
+                .addComponent(peorAbsoluto, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(numOperaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
                 .addComponent(evaluarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33))
         );
@@ -433,7 +444,7 @@ public class Vista extends javax.swing.JFrame {
        
         aux2 += algoritmo.getMejor().getFitness();
         
-        String aux3 ="  Peor combinacion: [";
+        String aux3 ="	Peor combinacion: [";
         for(int i = 0; i < algoritmo.getMejor().getLongitud(); ++i) {
         	 
         	aux3 += algoritmo.getPeor().getFenotipo().get(i).toString();
@@ -445,12 +456,13 @@ public class Vista extends javax.swing.JFrame {
        
         aux4 += algoritmo.getPeor().getFitness();
 
-        
+        String aux5 = "Mutaciones: " + algoritmo.getNumMutaciones() + ", Cruces: " + algoritmo.getNumCruzes()+
+        		", Selecciones: " + algoritmo.getNumSelecionados();
         
        
-        this.mejorAbsolutoText.setText(aux  + aux2 + aux3 + aux4);   
-       
-		
+        this.mejorAbsolutoText.setText(aux  + aux2 );   
+        this.peorAbsoluto.setText(aux3  + aux4 );
+		this.numOperaciones .setText(aux5);
 
 		// define your data
 		double[] x = new double[algoritmo.getNumGeneraciones()];
@@ -553,7 +565,8 @@ public class Vista extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel mejorAbsolutoText;
-    private javax.swing.JLabel mejorFXText;
+    private javax.swing.JLabel peorAbsoluto;
+    private javax.swing.JLabel numOperaciones;
     private javax.swing.JTextField numGeneracionesText;
     private javax.swing.JTextField numGenesBox;
     private javax.swing.JTextField porcentajeCrucesText;

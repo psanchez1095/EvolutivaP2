@@ -16,9 +16,9 @@ public class Ranking {
 		this.numSeleccionados = numSeleccionados;
 	}
 	
-	public void seleccionRanking() {
+	public int seleccionRanking() {
+		int numSel = 0;
 		ArrayList<Integer> selected = new ArrayList<Integer>();
-		Cromosoma[] individuos = this.poblacion;
 		ArrayList<Double> proporciones = new ArrayList<>();
 		int size = tamPob;
 		Random rn = new Random();
@@ -44,7 +44,8 @@ public class Ranking {
 			aux++;
 		}
 		
-		
+		numSel = numSeleccionados;
+		return numSel;
 	}
 	
 	 private void ordenarPoblacion(int izq, int der) {

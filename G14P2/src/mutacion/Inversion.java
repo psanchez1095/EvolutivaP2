@@ -18,19 +18,23 @@ public class Inversion {
 	}
 	
 	
-	public void mutar() {
-		
+	public int mutar() {
+		int numMut = 0;
 		for (int i = 0; i < this.tamPoblacion; ++i) {
-			invertir(this.poblacion[i].getFenotipo());
+			Random rnn = new Random();
+			if(rnn.nextInt() < probMut) {
+				numMut++;
+				invertir(this.poblacion[i].getFenotipo());
+			}
 		}
-		
+		return numMut;
 	}
 	
 	private void invertir(ArrayList<Integer> c) {
 		Random rn = new Random();
 		int pos = rn.nextInt(this.tamPoblacion-this.probMut);
 		int tamSeg = (this.tamPoblacion*this.probMut)/100;
-		ArrayList<Integer> aux = new ArrayList();
+		ArrayList<Integer> aux = new ArrayList<Integer>();
 		
 		for(int i = pos; i < pos+tamSeg; ++i) {
 			aux.set(i-pos, c.get(pos));

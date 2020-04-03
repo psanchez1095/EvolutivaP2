@@ -1,6 +1,7 @@
 package mutacion;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import cromosoma.Cromosoma;
 
@@ -17,14 +18,18 @@ public class Insercion {
 	}
 	
 	
-	public void mutar() {
+	public int mutar() {
 		
-		int insertos = this.probMut/this.tamPoblacion;
+		int insertos = this.probMut/this.tamPoblacion, numMut = 0;
 		for (int i = 0; i < this.tamPoblacion; ++i) {
-			for(int j = 0; j < insertos; ++j)
-				desplazar(this.poblacion[i].getFenotipo(), insertos*j, (insertos*j)+(probMut-1));
+			Random rn = new Random();
+			if(rn.nextInt() < probMut) {
+				numMut++;
+				for(int j = 0; j < insertos; ++j)
+					desplazar(this.poblacion[i].getFenotipo(), insertos*j, (insertos*j)+(probMut-1));
+			}
 		}
-		
+		return numMut;
 	}
 	
 	private void desplazar(ArrayList<Integer> c, int ini, int fin) {
