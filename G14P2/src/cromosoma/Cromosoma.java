@@ -81,9 +81,6 @@ public class Cromosoma implements Comparable<Cromosoma>{
     	this.longitud = longitud;
     }
 
-
- 
-
     public double bin2dec(boolean[] genotipo) { // Cambia una cadena de booleanos de binario a decimal
         double total = 0;
         int j = 0;

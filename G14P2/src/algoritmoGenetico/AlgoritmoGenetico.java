@@ -6,6 +6,7 @@ import mutacion.Heuristica;
 import mutacion.Insercion;
 import mutacion.Intercambio;
 import mutacion.Inversion;
+import mutacion.MutacionPropia;
 import cromosoma.Cromosoma;
 
 import java.io.File;
@@ -39,11 +40,12 @@ public class AlgoritmoGenetico {
 	double[] mejoresGeneracion;
 	double[] mejoresAbsolutos;
 	double[] peoresAbsolutos;
-
+	
 	double mediaGeneracion;
 	double mejorGeneracion;
 	double mejorAbsoluto;
 	
+	Funcion1 funcion;
 	private Cromosoma elMejor; //Mejor cromosoma encontrado hasta ahora.
 	private Cromosoma elPeor;
 	int pos_mejorGeneracion;   //Posicion del mejor cromosoma de la generacion
@@ -55,16 +57,16 @@ public class AlgoritmoGenetico {
 	
 
 	public AlgoritmoGenetico(TipoMutacion tMut, TipoSeleccion tSel, TipoCruce tCrux,
-							 int tPob, int nGeneracs, int nGenes, 
+							 int tPob, int nGeneracs, 
 							 double pCruce, double pMutacion, double pUnif, String prec,
 							 double elit) {
-
+		funcion=new Funcion1();
 		this.generacionActual = 0;
 		this.mutacion = tMut;
 		this.tipo_seleccion = tSel;
 		this.tipo_cruce = tCrux;
 		this.numGeneraciones = nGeneracs;
-		this.numGenes = nGenes;
+		//this.numGenes = nGenes;
 		this.tamPoblacion = tPob;
 		this.probabilidadCruce = pCruce;
 		this.probabilidadMutacion = pMutacion;
@@ -183,6 +185,10 @@ public class AlgoritmoGenetico {
 			truncamiento tru= new truncamiento(this.poblacion, this.tamPoblacion, false);
 			this.numSelecionados += tru.seleccionaTruncamiento();
 			break;
+		case SELPROPIA: 
+			SelPropia slp= new SelPropia(this.poblacion, this.tamPoblacion);
+			this.numSelecionados += slp.seleccionPropia();
+			break;
 		default:
 			Ruleta r = new Ruleta(this.poblacion, this.tamPoblacion);
 			this.numSelecionados += r.seleccionRuleta();
@@ -210,6 +216,8 @@ public class AlgoritmoGenetico {
 			cruce = new OX();
 		case CX:
 			cruce = new CX();
+		case CRUCEPROPIO:
+			cruce = new CrucePropio();
 		default:
 			cruce = new PMX();
 		}
@@ -276,6 +284,10 @@ public class AlgoritmoGenetico {
 		case HEURISTICA:
 			Heuristica heu = new Heuristica(probabilidadMutacion, tamPoblacion, poblacion, flujos, distancias);
 			this.numMutaciones += heu.mutar();
+		break;
+		case PROPIA:
+			MutacionPropia prp = new MutacionPropia(probabilidadMutacion, tamPoblacion, poblacion);
+			this.numMutaciones += prp.mutar();
 		break;
 		default:
 			Insercion inse = new Insercion(probabilidadMutacion, tamPoblacion, poblacion);

@@ -4,12 +4,11 @@ import cromosoma.Cromosoma;
 import utils.TipoMutacion;
 
 public class EstocasticoUniversal {
-	Cromosoma[] pob, nuevaPob;
+	Cromosoma[] pob;
 	private int tamPob;
 	
 	public EstocasticoUniversal(Cromosoma[] pob, int tamPob) {
 		this.pob = pob;
-		this.nuevaPob = new Cromosoma[tamPob];
 		this.tamPob = tamPob;
 	}
 	

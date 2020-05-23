@@ -23,7 +23,7 @@ public class Insercion {
 		int insertos = this.probMut/this.tamPoblacion, numMut = 0;
 		for (int i = 0; i < this.tamPoblacion; ++i) {
 			Random rn = new Random();
-			if(rn.nextInt() < probMut) {
+			if(rn.nextInt(this.tamPoblacion) < probMut) {
 				numMut++;
 				for(int j = 0; j < insertos; ++j)
 					desplazar(this.poblacion[i].getFenotipo(), insertos*j, (insertos*j)+(probMut-1));

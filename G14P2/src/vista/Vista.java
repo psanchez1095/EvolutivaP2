@@ -69,7 +69,7 @@ public class Vista extends javax.swing.JFrame {
         porcentajeCrucesText = new javax.swing.JTextField();
         porcentajeMutacionesText = new javax.swing.JTextField();
         porcentajeUniformeText = new javax.swing.JTextField();
-        numGenesBox = new javax.swing.JTextField();
+       // numGenesBox = new javax.swing.JTextField();
         precisionText = new javax.swing.JTextField();
         elitismoText = new javax.swing.JTextField();
         graficaPanel = new javax.swing.JPanel();
@@ -104,12 +104,12 @@ public class Vista extends javax.swing.JFrame {
         jLabel2.setText("Numero de generaciones:");
         jLabel3.setText("Porcentaje de cruces:");
         jLabel4.setText("Porcentaje uniforme:");
-        jLabel5.setText("Precision:");
+        jLabel5.setText("Fichero:");
         jLabel6.setText("Elitismo:");
         jLabel7.setText("Tipo de seleccion:");
         jLabel8.setText("Mutacion:");
         jLabel9.setText("Tipo de cruce:");
-        jLabel10.setText("Numero genes:");
+        //jLabel10.setText("Numero genes:");
         jLabel11.setText("Porcentaje de mutaciones:");
         
         tamPoblacionText.setText("100");
@@ -147,7 +147,7 @@ public class Vista extends javax.swing.JFrame {
         	}
         });
         
-        precisionText.setText("ajuste.txt");
+        precisionText.setText("datos12.txt");
         precisionText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 precisionTextActionPerformed(evt);
@@ -162,33 +162,33 @@ public class Vista extends javax.swing.JFrame {
             }
         });
 
-        seleccionBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "RULETA", "TORNEO", "ESTOCASTICO", "RANKING", "TRUNCAMIENTO10", "TRUNCAMIENTO50"}));
+        seleccionBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELPROPIA", "TORNEO", "ESTOCASTICO", "RANKING", "TRUNCAMIENTO10", "TRUNCAMIENTO50", "RULETA"}));
         seleccionBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	seleccionBoxActionPerformed(evt);
             }
         });
 
-        mutacionBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "INSERCION", "INTERCAMBIO", "INVERSION", "HEURISTICA" }));
+        mutacionBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PROPIA", "INTERCAMBIO", "INVERSION", "HEURISTICA" , "INSERCION"}));
         mutacionBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	mutacionBoxActionPerformed(evt);
             }
         });
         
-        cruceBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PMX", "OX", "CO", "CX" ,"ERX" ,"OX_PP"}));
+        cruceBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CRUCEPROPIO", "OX", "CO", "CX" ,"ERX" ,"OX_PP","PMX"}));
         cruceBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	cruceBoxActionPerformed(evt);
             }
         });
         
-        numGenesBox.setText("2");
-        numGenesBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	numGenesBoxTextActionPerformed(evt);
-            }
-        });
+//        numGenesBox.setText("2");
+//        numGenesBox.addActionListener(new java.awt.event.ActionListener() {
+//            public void actionPerformed(java.awt.event.ActionEvent evt) {
+//            	numGenesBoxTextActionPerformed(evt);
+//            }
+//        });
       
         
 	
@@ -202,7 +202,7 @@ public class Vista extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(precisionText, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(precisionText, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -221,8 +221,8 @@ public class Vista extends javax.swing.JFrame {
                                     .addComponent(numGeneracionesText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(porcentajeCrucesText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(porcentajeMutacionesText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(porcentajeUniformeText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(numGenesBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(porcentajeUniformeText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                     //.addComponent(numGenesBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -289,8 +289,8 @@ public class Vista extends javax.swing.JFrame {
                     .addComponent(elitismoText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(numGenesBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    //.addComponent(numGenesBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         
@@ -325,13 +325,13 @@ public class Vista extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
-                                .addComponent(mejorAbsolutoText, javax.swing.GroupLayout.PREFERRED_SIZE,800, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(mejorAbsolutoText, javax.swing.GroupLayout.PREFERRED_SIZE, 1785, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                     .addGap(10, 10, 10)
-                                    .addComponent(peorAbsoluto, javax.swing.GroupLayout.PREFERRED_SIZE,800, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(peorAbsoluto, javax.swing.GroupLayout.PREFERRED_SIZE, 1785, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                     .addGap(10, 10, 10)
-                                    .addComponent(numOperaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(numOperaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 785, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(graficaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -366,7 +366,7 @@ public class Vista extends javax.swing.JFrame {
 
 	// Codigo que se ejecuta al presionar el boton de "Evaluar poblacion"
 	private void evaluarButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_evaluarButtonActionPerformed
-		int tamPoblacion, numGeneraciones, numGenes;
+		int tamPoblacion, numGeneraciones;
 		double probabilidadCruce, probabilidadMutacion, probabilidadUniforme, elitismo;
 		String precision;
 		TipoSeleccion tipo_seleccion;
@@ -380,7 +380,7 @@ public class Vista extends javax.swing.JFrame {
 			// Almacenamos cada valor introducido por el usuario en una variable
 			tamPoblacion = Integer.parseInt(this.tamPoblacionText.getText());
 			numGeneraciones = Integer.parseInt(this.numGeneracionesText.getText());
-			numGenes = Integer.parseInt(this.numGenesBox.getText());
+			//numGenes = Integer.parseInt(this.numGenesBox.getText());
 			probabilidadCruce = Double.parseDouble(this.porcentajeCrucesText.getText());
 			probabilidadMutacion = Double.parseDouble(this.porcentajeMutacionesText.getText());
 			probabilidadUniforme = Double.parseDouble(this.porcentajeUniformeText.getText());
@@ -400,7 +400,7 @@ public class Vista extends javax.swing.JFrame {
 		
 
                 algoritmo = new AlgoritmoGenetico(tipo_mutacion, tipo_seleccion, tipo_cruce, 
-                								  tamPoblacion, numGeneraciones, numGenes, 
+                								  tamPoblacion, numGeneraciones, 
                 								  probabilidadCruce, probabilidadMutacion, probabilidadUniforme,
                 								  precision, elitismo);
         int tam_elite = 0;
@@ -418,7 +418,7 @@ public class Vista extends javax.swing.JFrame {
 			//if(algoritmo.getBooleanElite()) {
 				algoritmo.seleccionaElite();
 			//}
-			
+			//algoritmo.adaptar();
 			algoritmo.seleccionaPoblacion();
 			algoritmo.reproducePoblacion();
 			algoritmo.mutaPoblacion();
@@ -568,7 +568,7 @@ public class Vista extends javax.swing.JFrame {
     private javax.swing.JLabel peorAbsoluto;
     private javax.swing.JLabel numOperaciones;
     private javax.swing.JTextField numGeneracionesText;
-    private javax.swing.JTextField numGenesBox;
+    //private javax.swing.JTextField numGenesBox;
     private javax.swing.JTextField porcentajeCrucesText;
     private javax.swing.JTextField porcentajeMutacionesText;
     private javax.swing.JTextField porcentajeUniformeText;
@@ -584,7 +584,7 @@ public class Vista extends javax.swing.JFrame {
 		return this.jLabel9;
 	}
 
-	public JTextField getNumGenesBox() {
-		return this.numGenesBox;
-	}
+//	public JTextField getNumGenesBox() {
+//		return this.numGenesBox;
+//	}
 }
